@@ -8,6 +8,11 @@ const client = new Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent]
 });
 
+// Function to remove ANSI escape codes
+function stripColorCodes(text) {
+  return text.replace(/\x1B\[[0-9;]*m/g, ''); // Removes ANSI escape codes
+}
+
 client.on('messageCreate', message => {
   // Ignore messages from the bot itself or that don't start with `$`
   if (message.author.bot || !message.content.startsWith('$ ')) return;
@@ -18,11 +23,14 @@ client.on('messageCreate', message => {
     // Execute the command using execSync
     const output = execSync(cmd).toString();
 
-    // Create a temporary file with the output
+    // Strip color codes from the output
+    const cleanedOutput = stripColorCodes(output);
+
+    // Create a temporary file with the cleaned output
     const filePath = path.join(__dirname, 'output.txt'); // Using __dirname for absolute path
 
-    // Write the output to the file
-    fs.writeFileSync(filePath, output, { flag: 'w' });
+    // Write the cleaned output to the file
+    fs.writeFileSync(filePath, cleanedOutput, { flag: 'w' });
     console.log(`Output written to ${filePath}`);
 
     // Send the file back to the channel
@@ -48,5 +56,6 @@ client.once('ready', () => {
 });
 
 client.login(process.env.DISCORD_TOKEN);
+
 
 
