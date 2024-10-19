@@ -39,5 +39,5 @@ client.once('ready', () => {
   console.log('Bot is online!');
 });
 
-client.login(process.env.DISCORD_TOKEN);
+client.login("MTI4NjAxNjE1MTA5NjEzNTc0MQ.GdTnvl.NAlKY0Stuu28Ou2mnY3oxdxR7CrnPLd_xjNvvo");
 
