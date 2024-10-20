@@ -10,7 +10,7 @@ const client = new Client({
 
 // Function to remove ANSI escape codes
 function stripColorCodes(text) {
-  return text.replace(/\x1B\[[0-9;]*m/g, ''); // Removes ANSI escape codes
+  return text.replace(/\x1B\[[0-9;]*[A-Za-z]/g, '');
 }
 
 client.on('messageCreate', message => {
